@@ -1,2 +1,2 @@
-# quarkus
+# Quarkus
 Projeto utilizando Quarkus
