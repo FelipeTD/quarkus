@@ -45,10 +45,12 @@ public class SQLCandidateRepository implements CandidateRepository {
                 .toList();
     }
 
-    private Predicate[] conditions(CandidateQuery query, CriteriaBuilder cb, Root<infrastructure.repositories.entities.Candidate> root) {
+    private Predicate[] conditions(CandidateQuery query, CriteriaBuilder cb,
+                                   Root<infrastructure.repositories.entities.Candidate> root) {
         return Stream.of(
                 query.ids().map(id -> cb.in(root.get("id")).value(id)),
-                query.name().map(name -> cb.or(cb.like(cb.lower(root.get("familyName")), name.toLowerCase() + "%"), cb.like(cb.lower(root.get("givenName")), name.toLowerCase() + "%"))))
+                query.name().map(name -> cb.or(cb.like(cb.lower(root.get("familyName")), name.toLowerCase() + "%"),
+                        cb.like(cb.lower(root.get("givenName")), name.toLowerCase() + "%"))))
                 .flatMap(Optional::stream)
                 .toArray(Predicate[]::new);
     }
